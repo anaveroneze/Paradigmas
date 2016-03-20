@@ -15,13 +15,12 @@ addSr  :: [String]->[String]
 addSr names = map ("Sr. " ++) names
 lstrg names = length names
 
---4. Crie uma função que receba uma string e retorne o número de espaços nela contidos. 
---Dica: aplique 2 funções consecutivamente.
+--4. Crie uma função que receba uma string e retorne o número de espaços nela contidos. Dica: aplique 2 funções consecutivamente.
 
 numSpaces :: String -> Int
 numSpaces x =  length (filter (== ' ') x)
 
---5. Escreva uma função que, dada uma lista de números, calcule 3*n^2 + 2/n + 1
+--5. Escreva uma função que, dada uma lista de números, calcule 3*n^2 + 2/n + 1 
 --para cada número n da lista. Dica: defina uma função anônima.
 
 numList :: [Float] -> [Float]
@@ -56,20 +55,21 @@ charFound :: Char -> String -> Bool
 --charFound x y = x `elem` y
 charFound x y = length(filter(x==) y) > 0
 
---11. A função takeWhile :: (a -> Bool) -> [a] -> [a] é uma função de alta ordem. Ela recebe uma função condicional e uma 
---lista, retornando o "menor prefixo" (isto é, porção inicial) da lista que satisfaça a condição dada. 
---Teste os exemplos abaixo no GHCi e depois crie um novo exemplo:
+{-
+11. A função takeWhile :: (a -> Bool) -> [a] -> [a] é uma função de alta ordem. Ela recebe uma função condicional e uma 
+lista, retornando o "menor prefixo" (isto é, porção inicial) da lista que satisfaça a condição dada. 
+Teste os exemplos abaixo no GHCi e depois crie um novo exemplo:
 
--- > takeWhile (< 5) [1,2,3,4,5]
--- [1,2,3,4]
--- > takeWhile (/=' ') "Fulana de Tal"
--- "Fulana"
+> takeWhile (< 5) [1,2,3,4,5]
+[1,2,3,4]
+> takeWhile (/=' ') "Fulana de Tal"
+"Fulana"
 
--- > takeWhile (\n-> n^2 < 50) [1,2,3,4,5,6,7,8,9]
--- [1,2,3,4,5,6,7]
+> takeWhile (\n-> n^2 < 50) [1,2,3,4,5,6,7,8,9]
+[1,2,3,4,5,6,7]
+-}
 
---12. Crie uma função que receba uma lista de nomes e retorne outra lista 
---com somente aqueles nomes que terminarem com a letra 'a'.
+--12. Crie uma função que receba uma lista de nomes e retorne outra lista com somente aqueles nomes que terminarem com a letra 'a'.
 
 finalA :: [String] -> [String]
 finalA names = filter(\n -> last n == 'a')names
