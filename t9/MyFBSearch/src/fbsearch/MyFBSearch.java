@@ -11,6 +11,8 @@ import com.restfb.FacebookClient;
 import com.restfb.Parameter;
 import com.restfb.Version;
 import com.restfb.types.User;
+import static java.lang.System.out;
+import java.util.List;
 import java.util.Scanner;
 
 /**
@@ -26,11 +28,24 @@ public class MyFBSearch {
     }
     
     public void search(){
+        
         Connection<User> profilesFound = fbClient.fetchConnection("search", User.class, 
-                Parameter.with("q", "Chuck Norris"), Parameter.with("type", "user"));
-        System.out.println(profilesFound.getNextPageUrl());
+                Parameter.with("q", "ana veroneze"), Parameter.with("type", "user"),
+                Parameter.with("limit", 5000), Parameter.with("offset", 0));    
+        
+        
+        List<User> pages = profilesFound.getData();
+        for(User p : pages){
+           //get user profile's picture
+           User user = fbClient.fetchObject(p.getId(), User.class, Parameter.with("fields", "picture, first_name, last_name, gender, name"));
+           out.println(p.getName() + " " + p.getId());
+           out.println(user.getPicture().getUrl());
+        }
+        
+        out.println("Number of profiles found: " + profilesFound.getData().size());   
+       
     } 
-            
+   
     public static void main(String[] args) {
         
         Scanner read = new Scanner(System.in);
@@ -40,6 +55,5 @@ public class MyFBSearch {
         
         new MyFBSearch(accessToken).search();      
     }
-    
-    
+       
 }
