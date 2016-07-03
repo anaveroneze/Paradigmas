@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package fbsearch;
+package fbsearch.model;
 
 import com.restfb.Connection;
 import com.restfb.DefaultFacebookClient;
@@ -16,7 +16,6 @@ import java.io.IOException;
 import static java.lang.System.out;
 import java.net.URL;
 import java.util.List;
-import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
@@ -27,51 +26,69 @@ import javax.imageio.ImageIO;
  */
 public class MyFBSearch {
     
-    private final FacebookClient fbClient;
+    private FacebookClient fbClient;
+    private String accessToken;
+    private String username;
     
-    public MyFBSearch(String accessToken){
+    private String name;
+    private String id;
+    private String url;
+    private int position;
+    
+    public MyFBSearch(){
+    }
+    
+    public MyFBSearch(String accessToken, String username){
+        this.accessToken = accessToken;
+        this.username = username;
         fbClient = new DefaultFacebookClient(accessToken, Version.VERSION_2_5);
     }
     
-    public void search(){
-        
-        Connection<User> profilesFound = fbClient.fetchConnection("search", User.class, 
-                Parameter.with("q", "ana veroneze solórzano"), Parameter.with("type", "user"),
-                Parameter.with("limit", 5000), Parameter.with("offset", 0));    
-        
-        
-        List<User> pages = profilesFound.getData();
-        for(User p : pages){
-           //get user profile's picture
-           User user = fbClient.fetchObject(p.getId(), User.class, Parameter.with("fields", "picture"));
-           out.println(p.getName() + " " + p.getId());
-           out.println(user.getPicture().getUrl());
-           
-           String url = user.getPicture().getUrl();
-           //get the image by the url
-            try {
-                BufferedImage img = ImageIO.read(new URL(url));
-             /* save image
-                File outputfile = new File("saved.jpg"); #save the image
-                ImageIO.write(img, "jpg", outputfile);
-            */   
-            } catch (IOException e) {
-                Logger.getLogger(MyFBSearch.class.getName()).log(Level.SEVERE, null, e);
-            }
-        
-        out.println("Number of profiles found: " + profilesFound.getData().size());    
-       
-        }
+    public void setElements(String name, String id, String url, int position){
+        this.name = name;
+        this.id = id;
+        this.url = url;
+        this.position = position;
     }
-   
-    public static void main(String[] args) {
-        
-        Scanner read = new Scanner(System.in);
-        
-        System.out.print("Token:");
-        String accessToken = read.next();
-        
-        new MyFBSearch(accessToken).search();      
+    
+    public FacebookClient getFbClient(){
+        return fbClient;
     }
-       
+    
+    public String getUsername(){
+        return username;
+    }
+    
+    public String getAccessToken(){
+        return accessToken;
+    }
+    
+    public int getPosition(){
+        return position;
+    }
+    
+    public String getUrl() {
+        return url;
+    }
+
+    public String getId() {
+        return id;
+    }
+    
+    public void setFbClient(FacebookClient fbClient){
+        this.fbClient = fbClient;
+    }
+    
+    public void setUsername(String username){
+        this.username = username;
+    }
+    
+    public void setAccessToken(String accessToken){
+        this.accessToken = accessToken;
+    }
+    
+    public void setPosition(int position){
+        this.position = position;
+    }
+
 }
