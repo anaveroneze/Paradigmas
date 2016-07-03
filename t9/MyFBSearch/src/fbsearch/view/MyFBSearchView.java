@@ -26,7 +26,7 @@ public class MyFBSearchView extends javax.swing.JFrame {
     public MyFBSearchView() {
         initComponents();
         model = new MyFBSearchModel();
-        jTable1.setModel(model);
+        jTable.setModel(model);
         controller = new MyFBSearchController(model, this);
     }
 
@@ -39,8 +39,8 @@ public class MyFBSearchView extends javax.swing.JFrame {
     }
     
     public JTable getTable(){
-        return jTable1
-;    }
+        return jTable;
+    }
     
     /**
      * This method is called from within the constructor to initialize the form.
@@ -61,7 +61,7 @@ public class MyFBSearchView extends javax.swing.JFrame {
         jButtonCancel = new javax.swing.JButton();
         jButtonSave = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        jTable = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -105,7 +105,7 @@ public class MyFBSearchView extends javax.swing.JFrame {
             }
         });
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        jTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -116,7 +116,7 @@ public class MyFBSearchView extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(jTable);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -255,7 +255,7 @@ public class MyFBSearchView extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JTable jTable;
     private javax.swing.JTextField jTokenField;
     private javax.swing.JTextField jUserField;
     // End of variables declaration//GEN-END:variables

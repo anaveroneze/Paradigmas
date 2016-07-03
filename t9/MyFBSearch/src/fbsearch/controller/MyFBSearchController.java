@@ -24,7 +24,10 @@ public class MyFBSearchController {
     }  
     
     public void setListInfo() {
-        MyFBSearch MyFBSearch = new MyFBSearch(view.getTokenField().getText(), view.getUserField().getText());
+        model.setAccessToken(view.getTokenField().getText());
+        model.setNameToSearch(view.getUserField().getText());
+        
+        MyFBSearch MyFBSearch = new MyFBSearch();
         model.add(MyFBSearch);
     }
     
