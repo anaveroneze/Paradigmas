@@ -5,6 +5,8 @@
  */
 package fbsearch.model;
 
+import javax.swing.ImageIcon;
+
 /**
  *
  * @author ana
@@ -13,30 +15,27 @@ public class MyFBSearch {
        
     private String name;
     private String id;
-    private String url;
+    private ImageIcon image;
     
     public MyFBSearch(){
     }
     
-    public MyFBSearch(String name, String id, String url){
+    public MyFBSearch(String name, String id, ImageIcon image){
         this.name = name;
         this.id = id;
-        this.url = url;
+        this.image = image;
     }
 
     public String getName(){
         return name;
     }
     
-    public String getUrl() {
-        return url;
+    public ImageIcon getImage() {
+        return image;
     }
 
     public String getId() {
         return id;
     }
     
-    public void setName(String name){
-        this.name = name;
-    }
 }

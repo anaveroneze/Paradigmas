@@ -12,12 +12,14 @@ import com.restfb.Parameter;
 import com.restfb.Version;
 import com.restfb.types.User;
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
-import static java.lang.System.out;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 import javax.swing.table.AbstractTableModel;
 
 /**
@@ -29,6 +31,8 @@ public class MyFBSearchModel extends AbstractTableModel{
     private static final String[] nameColumns = {"#", "Picture", "Id", "Name"}; 
     private String accessToken;
     private String nameToSearch;
+    private BufferedImage image;
+    private int numProfiles;
     private FacebookClient fbClient;
     
     private ArrayList<MyFBSearch> users;
@@ -60,6 +64,10 @@ public class MyFBSearchModel extends AbstractTableModel{
         return nameToSearch;
     }
     
+    public int getNumProfiles(){
+        return numProfiles;
+    }
+    
     public void setAccessToken(String accessToken){
         this.accessToken = accessToken;
     }
@@ -74,40 +82,34 @@ public class MyFBSearchModel extends AbstractTableModel{
                 Parameter.with("q", nameToSearch), Parameter.with("type", "user"),
                 Parameter.with("limit", 5000), Parameter.with("offset", 0));
         
+        numProfiles = profilesFound.getData().size();
+
         List<User> pages = profilesFound.getData();
         for(User p : pages){
             User user = fbClient.fetchObject(p.getId(), User.class, Parameter.with("fields", "picture")); 
-            
-            MyFBSearch client = new MyFBSearch(p.getName(), p.getId(), user.getPicture().getUrl());
-            users.add(client);
-            fireTableRowsInserted(users.size()-1, users.size()-1);
-            
-            out.println("Number of profiles found: " + profilesFound.getData().size());   
-            out.println(p.getName() + " " + p.getId());
-            out.println(user.getPicture().getUrl());
-            //out.println("Number of profiles found: " + profilesFound.getData().size());   
-            //out.println(p.getName() + " " + p.getId());
-            //out.println(user.getPicture().getUrl());
-          
-           /*get the image by the url
+            //get the image by the url
             try {
-                BufferedImage img = ImageIO.read(new URL(url));
-             // save image
+                image = ImageIO.read(new URL(user.getPicture().getUrl()));
+             /*save image
                 File outputfile = new File("saved.jpg"); 
                 ImageIO.write(img, "jpg", outputfile);
-               
+               */
             } catch (IOException e) {
                 Logger.getLogger(MyFBSearch.class.getName()).log(Level.SEVERE, null, e);
-            }*/
+            }
+            
+            MyFBSearch client = new MyFBSearch(p.getName(), p.getId(), (new ImageIcon(image)));
+            users.add(client);
+            fireTableRowsInserted(users.size()-1, users.size()-1);
+
         }
     }
     
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
         switch(columnIndex) {
-            case 0: return "0";
-            case 1: System.out.println(users.get(rowIndex).getUrl());
-                    return users.get(rowIndex).getUrl();
+            case 0: return (rowIndex+1);
+            case 1: return users.get(rowIndex).getImage();
             case 2: return users.get(rowIndex).getId();
             case 3: return users.get(rowIndex).getName();
         }

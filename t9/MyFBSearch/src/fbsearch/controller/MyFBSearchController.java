@@ -31,4 +31,12 @@ public class MyFBSearchController {
         model.add(MyFBSearch);
     }
     
+    public void selectedToSave(){
+        
+    }
+    
+    public int getNumProfiles(){
+        return model.getNumProfiles();
+    }
+    
 }
