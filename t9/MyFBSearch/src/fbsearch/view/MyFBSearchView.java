@@ -8,10 +8,14 @@ package fbsearch.view;
 import fbsearch.controller.MyFBSearchController;
 import fbsearch.model.MyFBSearchModel;
 import fbsearch.model.RenderedTable;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JLabel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.ListSelectionModel;
 
 /**
  *
@@ -213,7 +217,11 @@ public class MyFBSearchView extends javax.swing.JFrame {
     }//GEN-LAST:event_jButtonCancelActionPerformed
 
     private void jButtonSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSaveActionPerformed
-        // TODO add your handling code here:
+        try {
+            controller.saveImages(jTable.getSelectedRows());
+        } catch (IOException ex) {
+            Logger.getLogger(MyFBSearchView.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_jButtonSaveActionPerformed
 
     private void jTokenFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTokenFieldActionPerformed

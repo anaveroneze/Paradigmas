@@ -8,6 +8,7 @@ package fbsearch.controller;
 import fbsearch.model.MyFBSearch;
 import fbsearch.model.MyFBSearchModel;
 import fbsearch.view.MyFBSearchView;
+import java.io.IOException;
 
 /**
  *
@@ -31,8 +32,8 @@ public class MyFBSearchController {
         model.add(MyFBSearch);
     }
     
-    public void selectedToSave(){
-        
+    public void saveImages(int [] selectedRows) throws IOException{
+        model.saveImages(selectedRows);
     }
     
     public int getNumProfiles(){

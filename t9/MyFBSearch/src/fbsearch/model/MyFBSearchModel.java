@@ -12,6 +12,8 @@ import com.restfb.Parameter;
 import com.restfb.Version;
 import com.restfb.types.User;
 import java.awt.image.BufferedImage;
+import java.awt.image.RenderedImage;
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -34,6 +36,7 @@ public class MyFBSearchModel extends AbstractTableModel{
     private BufferedImage image;
     private int numProfiles;
     private FacebookClient fbClient;
+    private String imageName;
     
     private ArrayList<MyFBSearch> users;
     
@@ -90,18 +93,22 @@ public class MyFBSearchModel extends AbstractTableModel{
             //get the image by the url
             try {
                 image = ImageIO.read(new URL(user.getPicture().getUrl()));
-             /*save image
-                File outputfile = new File("saved.jpg"); 
-                ImageIO.write(img, "jpg", outputfile);
-               */
             } catch (IOException e) {
                 Logger.getLogger(MyFBSearch.class.getName()).log(Level.SEVERE, null, e);
             }
             
-            MyFBSearch client = new MyFBSearch(p.getName(), p.getId(), (new ImageIcon(image)));
+            MyFBSearch client = new MyFBSearch(p.getName(), p.getId(), (new ImageIcon(image)), image);
             users.add(client);
             fireTableRowsInserted(users.size()-1, users.size()-1);
 
+        }
+    }
+    
+    public void saveImages(int [] imageIndex) throws IOException{
+        for(int i : imageIndex){
+            imageName = "(" + (i+1) + ")saved.jpg";
+            File outputfile = new File(imageName); 
+            ImageIO.write(users.get(i).getImg(), "jpg", outputfile);
         }
     }
     
