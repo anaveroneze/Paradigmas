@@ -15,9 +15,9 @@ import javax.swing.table.DefaultTableCellRenderer;
  *
  * @author ana
  */
-public class RenderedTable extends DefaultTableCellRenderer {
+public class RendererTable extends DefaultTableCellRenderer {
     
-    public RenderedTable(){
+    public RendererTable(){
         super();
     }
     

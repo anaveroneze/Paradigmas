@@ -7,25 +7,21 @@ package fbsearch.view;
 
 import fbsearch.controller.MyFBSearchController;
 import fbsearch.model.MyFBSearchModel;
-import fbsearch.model.RenderedTable;
+import fbsearch.model.RendererTable;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.JLabel;
-import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
-import javax.swing.ListSelectionModel;
 
 /**
  *
  * @author ana
  */
-public class MyFBSearchView extends javax.swing.JFrame {
+public class MyFBSearchView extends javax.swing.JFrame{
     
     private final MyFBSearchController controller;
     private final MyFBSearchModel model;
-    //MyFBSearchModel listData = new MyFBSearchModel();
     /**
      * Creates new form NovoJFrame
      */
@@ -55,7 +51,7 @@ public class MyFBSearchView extends javax.swing.JFrame {
         jTable.getColumnModel().getColumn(1).setPreferredWidth(150);
         jTable.getColumnModel().getColumn(2).setPreferredWidth(400);
         jTable.getColumnModel().getColumn(3).setPreferredWidth(400);
-        jTable.setDefaultRenderer(Object.class, new RenderedTable());
+        jTable.setDefaultRenderer(Object.class, new RendererTable());
     }
     
     /**
@@ -134,7 +130,6 @@ public class MyFBSearchView extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jScrollPane1)
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
                         .addGap(4, 4, 4)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -143,7 +138,7 @@ public class MyFBSearchView extends javax.swing.JFrame {
                         .addGap(4, 4, 4)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jUserField, javax.swing.GroupLayout.DEFAULT_SIZE, 440, Short.MAX_VALUE)
+                                .addComponent(jUserField)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jButtonSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -151,7 +146,8 @@ public class MyFBSearchView extends javax.swing.JFrame {
                             .addComponent(jTokenField)))
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addGap(0, 640, Short.MAX_VALUE))
+                    .addComponent(jScrollPane1))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -184,19 +180,21 @@ public class MyFBSearchView extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 2, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jButtonSave, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jButtonSave, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButtonSave, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButtonSave)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -208,12 +206,12 @@ public class MyFBSearchView extends javax.swing.JFrame {
 
     private void jButtonSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSearchActionPerformed
         controller.setListInfo();
-        jTable.getColumnModel().getColumn(1).setCellRenderer(new RenderedTable());
+        jTable.getColumnModel().getColumn(1).setCellRenderer(new RendererTable());
     }//GEN-LAST:event_jButtonSearchActionPerformed
 
     private void jButtonCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCancelActionPerformed
-        jTokenField.setText("");
-        jUserField.setText("");
+        controller.cancelSearch();
+        jButtonSearch.setEnabled(false);
     }//GEN-LAST:event_jButtonCancelActionPerformed
 
     private void jButtonSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSaveActionPerformed
@@ -225,7 +223,7 @@ public class MyFBSearchView extends javax.swing.JFrame {
     }//GEN-LAST:event_jButtonSaveActionPerformed
 
     private void jTokenFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTokenFieldActionPerformed
-       
+
     }//GEN-LAST:event_jTokenFieldActionPerformed
 
     
@@ -278,4 +276,5 @@ public class MyFBSearchView extends javax.swing.JFrame {
     private javax.swing.JTextField jTokenField;
     private javax.swing.JTextField jUserField;
     // End of variables declaration//GEN-END:variables
+
 }

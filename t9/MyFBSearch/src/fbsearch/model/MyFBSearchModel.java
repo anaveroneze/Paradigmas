@@ -12,7 +12,6 @@ import com.restfb.Parameter;
 import com.restfb.Version;
 import com.restfb.types.User;
 import java.awt.image.BufferedImage;
-import java.awt.image.RenderedImage;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
@@ -28,7 +27,7 @@ import javax.swing.table.AbstractTableModel;
  *
  * @author ana
  */
-public class MyFBSearchModel extends AbstractTableModel{
+public class MyFBSearchModel extends AbstractTableModel implements Runnable{
     
     private static final String[] nameColumns = {"#", "Picture", "Id", "Name"}; 
     private String accessToken;
@@ -38,10 +37,10 @@ public class MyFBSearchModel extends AbstractTableModel{
     private FacebookClient fbClient;
     private String imageName;
     
-    private ArrayList<MyFBSearch> users;
+    private ArrayList <MyFBSearch> users;
     
     public MyFBSearchModel(){
-        users = new ArrayList<MyFBSearch>();
+        users = new ArrayList<>();
     }
 
     @Override
@@ -79,8 +78,8 @@ public class MyFBSearchModel extends AbstractTableModel{
         this.nameToSearch = nameToSearch;
     }
     
-    public void add(MyFBSearch fbSearch){
-        fbClient= new DefaultFacebookClient(accessToken, Version.VERSION_2_5);
+    public void run(){
+        fbClient = new DefaultFacebookClient(accessToken, Version.VERSION_2_5);
         Connection<User> profilesFound = fbClient.fetchConnection("search", User.class, 
                 Parameter.with("q", nameToSearch), Parameter.with("type", "user"),
                 Parameter.with("limit", 5000), Parameter.with("offset", 0));
@@ -89,6 +88,7 @@ public class MyFBSearchModel extends AbstractTableModel{
 
         List<User> pages = profilesFound.getData();
         for(User p : pages){
+            
             User user = fbClient.fetchObject(p.getId(), User.class, Parameter.with("fields", "picture")); 
             //get the image by the url
             try {
@@ -100,17 +100,19 @@ public class MyFBSearchModel extends AbstractTableModel{
             MyFBSearch client = new MyFBSearch(p.getName(), p.getId(), (new ImageIcon(image)), image);
             users.add(client);
             fireTableRowsInserted(users.size()-1, users.size()-1);
-
+                                   
+            if(Thread.interrupted())
+                throw new InterruptedException();
         }
     }
     
     public void saveImages(int [] imageIndex) throws IOException{
-        for(int i : imageIndex){
-            imageName = "(" + (i+1) + ")saved.jpg";
-            File outputfile = new File(imageName); 
-            ImageIO.write(users.get(i).getImg(), "jpg", outputfile);
-        }
-    }
+       for(int i : imageIndex){
+           imageName = "images/" + (i+1) + "-" + users.get(i).getName() + ".jpg";
+           File outputfile = new File(imageName); 
+           ImageIO.write(users.get(i).getImg(), "jpg", outputfile);
+       }
+   }
     
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
@@ -122,5 +124,4 @@ public class MyFBSearchModel extends AbstractTableModel{
         }
         return users.get(rowIndex);
     }
-    
 }

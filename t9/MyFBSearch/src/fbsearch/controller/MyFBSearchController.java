@@ -5,7 +5,6 @@
  */
 package fbsearch.controller;
 
-import fbsearch.model.MyFBSearch;
 import fbsearch.model.MyFBSearchModel;
 import fbsearch.view.MyFBSearchView;
 import java.io.IOException;
@@ -14,10 +13,11 @@ import java.io.IOException;
  *
  * @author ana
  */
-public class MyFBSearchController {
+public class MyFBSearchController{
 
     private MyFBSearchModel model;
     private MyFBSearchView view;
+    public Thread t;
     
     public MyFBSearchController(MyFBSearchModel model, MyFBSearchView view){
         this.model = model;
@@ -27,17 +27,15 @@ public class MyFBSearchController {
     public void setListInfo() {
         model.setAccessToken(view.getTokenField().getText());
         model.setNameToSearch(view.getUserField().getText());
-        
-        MyFBSearch MyFBSearch = new MyFBSearch();
-        model.add(MyFBSearch);
+        t = new Thread(model);
+        t.start();
     }
     
     public void saveImages(int [] selectedRows) throws IOException{
         model.saveImages(selectedRows);
     }
     
-    public int getNumProfiles(){
-        return model.getNumProfiles();
+    public void cancelSearch() {
+        t.interrupt();
     }
-    
 }
