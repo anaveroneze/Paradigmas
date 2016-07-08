@@ -108,7 +108,7 @@ public class MyFBSearchModel extends AbstractTableModel implements Runnable{
     
     public void saveImages(int [] imageIndex) throws IOException{
        for(int i : imageIndex){
-           imageName = "images/" + (i+1) + "-" + users.get(i).getName() + ".jpg";
+           imageName = (i+1) + "-" + users.get(i).getName() + ".jpg";
            File outputfile = new File(imageName); 
            ImageIO.write(users.get(i).getImg(), "jpg", outputfile);
        }
