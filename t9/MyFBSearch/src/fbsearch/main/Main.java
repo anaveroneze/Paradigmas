@@ -9,7 +9,7 @@ import fbsearch.view.MyFBSearchView;
 import javax.swing.SwingUtilities;
 
 /**
- *
+ * Obter token de acesso: https://developers.facebook.com/tools/explorer
  * @author ana
  */
 public class Main {

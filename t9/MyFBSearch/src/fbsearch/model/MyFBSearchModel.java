@@ -37,7 +37,7 @@ public class MyFBSearchModel extends AbstractTableModel implements Runnable{
     private FacebookClient fbClient;
     private String imageName;
     
-    private ArrayList <MyFBSearch> users;
+    private final ArrayList <MyFBSearch> users;
     
     public MyFBSearchModel(){
         users = new ArrayList<>();
@@ -102,7 +102,12 @@ public class MyFBSearchModel extends AbstractTableModel implements Runnable{
             fireTableRowsInserted(users.size()-1, users.size()-1);
                                    
             if(Thread.interrupted())
-                throw new InterruptedException();
+                try {
+                    throw new InterruptedException();
+            } catch (InterruptedException ex) {
+                Logger.getLogger(MyFBSearchModel.class.getName()).log(Level.SEVERE, null, ex);
+                return;
+            }
         }
     }
     
